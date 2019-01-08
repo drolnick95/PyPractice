@@ -12,3 +12,5 @@ count the number of occurrences of each unique element.
                 1b) Solve this with a better-than-O(N) algorithm
 
 Test with a randomly generated array
+
+To run my solution, simply run `python element_frequency.py` in the same directory
