@@ -1,7 +1,9 @@
 # PyPractice
-Practice problem in python
+General practice  in python
 
 ### Element Frequency:
+This file solves the below problem:
+
 Given a sorted array of N elements with duplicates, for example:
 
 a,b,b,b,b,b,d,h,h,h,p
@@ -13,4 +15,6 @@ count the number of occurrences of each unique element.
 
 Test with a randomly generated array
 
-To run my solution, simply run `python element_frequency.py` in the same directory
+
+
+
