@@ -9,6 +9,12 @@ class ListNode(object):
         self.data = data
         self.next = next
 
+    def __repr__(self):
+        return str(self.data)
+
+    def __str__(self):
+        return str(self.data)
+
 class MyLinkedList(object):
     def __init__(self, head=None):
         self.head = head
@@ -19,25 +25,69 @@ class MyLinkedList(object):
         self.head.next = next_node
 
 ##########################################################################
-# Tree Implementation
+# Tree Implementation (+ a regular graph)
 ##########################################################################
 class TreeNode(object):
     def __init__(self, data=None):
             self.data = data
             self.children = []
 
-    def insert(self, node):
+    def __repr__(self):
+        return str(self.data)
 
-            self.children.append(node)
+    def __str__(self):
+        return str(self.data)
+
+    def insert(self, node):
+        n = TreeNode(node)
+        self.children.append(n)
 
 
 class MyTree(object):
-    def __init__(self,head):
-        self.head = head
+    def __init__(self):
+        self.head = TreeNode()
+
+
+from collections import defaultdict, deque
+class MyGraph(object):
+    def __init__(self):
+        self.nodes = defaultdict(list)
+
+    def add_edge(self, a, b):
+        self.nodes[a].append(b)
+
+    def dfs(self, node):
+        visited = set()
+        self._dfs(node,visited)
+
+    def _dfs(self, node, visited):
+        print(node)
+        visited.add(node)
+
+        for neighbor in self.nodes[node]:
+            if neighbor not in visited:
+                self._dfs(neighbor, visited)
+
+    def bfs(self, node):
+        visited = set()
+        queue = deque()
+        visited.add(node)
+        queue.append(node)
+
+        while queue:
+            n = queue.popleft()
+            print (n)
+            for neighbor in self.nodes[n]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+
+
+
 
 
 ##########################################################################
-# Binary Tree Implementation #
+# Binary Search Tree Implementation
 ##########################################################################
 class BinaryTreeNode(object):
     def __init__(self, data=None):
@@ -45,6 +95,11 @@ class BinaryTreeNode(object):
         self.left = None
         self.right = None
 
+    def __repr__(self):
+        return str(self.data)
+
+    def __str__(self):
+        return str(self.data)
 
 class MyBinaryTree(object):
     def __init__(self,root):
@@ -58,18 +113,27 @@ class MyBinaryTree(object):
             if parent.left is None:
                 parent.left = BinaryTreeNode(value)
             else:
-                parent._insert(value, parent.left)
+                self._insert(value, parent.left)
         else:
             if parent.right is None:
                 parent.right = BinaryTreeNode(value)
             else:
                 self._insert(value, parent.right)
 
+    def in_order_traverse(self):
+        self._in_order_traverse(self.root)
+
+    def _in_order_traverse(self, node):
+        if node is not None:
+            self._in_order_traverse(node.left)
+            print(node)
+            self._in_order_traverse(node.right)
+
 
 ##########################################################################
 # Stack implementation
 ##########################################################################
-class myStack(object):
+class MyStack(object):
     def __init__(self):
         self.l = MyLinkedList()
         self.size = 0
@@ -79,7 +143,10 @@ class myStack(object):
         self.size += 1
 
     def pop (self):
-        item = self.l
+        """
+        In real implementation, needs to check if its empty and raise exception
+        """
+        item = self.l.head
         self.l.head = self.l.head.next
         self.size -= 1
         return item
@@ -94,6 +161,7 @@ class myStack(object):
 ##########################################################################
 # Queue implementation using python array
 ##########################################################################
+# Not quite right now
 class MyQueueArr(object):
     def __init__(self):
         self.size = 0
@@ -115,7 +183,9 @@ class MyQueueArr(object):
     def peek_back(self):
         return self.arr[self.size-1]
 
-    def size(self):
+    def get_size(self):
         return self.size
 
+    def is_empty(self):
+        return self.size==0
 
