@@ -2,7 +2,7 @@
 
 
 ##########################################################################
-# LinkedList implementation
+# LinkedList implementation, This list builds in front of head
 ##########################################################################
 class ListNode(object):
     def __init__(self, data=None, next=None):
@@ -48,7 +48,7 @@ class MyTree(object):
         self.head = TreeNode()
 
 
-from collections import defaultdict, deque
+from collections import defaultdict
 class MyGraph(object):
     def __init__(self):
         self.nodes = defaultdict(list)
@@ -70,17 +70,17 @@ class MyGraph(object):
 
     def bfs(self, node):
         visited = set()
-        queue = deque()
+        queue = MyQueue()
         visited.add(node)
-        queue.append(node)
+        queue.enqueue(node)
 
-        while queue:
-            n = queue.popleft()
+        while not queue.is_empty():
+            n = queue.dequeue()
             print (n)
             for neighbor in self.nodes[n]:
                 if neighbor not in visited:
                     visited.add(neighbor)
-                    queue.append(neighbor)
+                    queue.enqueue(neighbor)
 
 
 
@@ -161,27 +161,46 @@ class MyStack(object):
 ##########################################################################
 # Queue implementation using python array
 ##########################################################################
-# Not quite right now
-class MyQueueArr(object):
+# Not quite right now, should be a linked list anyway
+
+
+# Linked list that builds after head
+class MyForwardLinkedList(object):
+    def __init__(self, head=None):
+        self.head = head
+
+    def add_element(self, item):
+        if self.head is None:
+            self.head = ListNode(item)
+        else:
+            cur = self.head
+            while cur.next is not None:
+                cur = cur.next
+            cur.next = ListNode(item)
+
+class MyQueue(object):
     def __init__(self):
         self.size = 0
-        self.arr = []
+        self.l = MyForwardLinkedList()
 
     def enqueue(self, item):
-        self.arr.append(item)
+        self.l.add_element(item)
         self.size += 1
 
     def dequeue(self):
-        item = self.arr[self.size-1]
-        self.arr[self.size-1] = None
-        self.size -=1
-        return item
+        item = self.l.head
+        self.l.head = self.l.head.next
+        self.size -= 1
+        return item.data
 
     def peek_front(self):
-        return self.arr[0]
+        return self.l.head.data
 
     def peek_back(self):
-        return self.arr[self.size-1]
+        cur = self.l.head
+        while cur.next is not None:
+            cur = cur.next
+        return cur.next.data
 
     def get_size(self):
         return self.size
