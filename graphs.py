@@ -39,9 +39,32 @@ class MinBST(object):
         node.right = self._build_minimal_tree(arr, mid+1, last)
         return node
 
+# You are given a list of projects and a list of dependencies(which is a list of pairs of projects,
+# where the second project is dependent on the first project) Find a build ordere that will allow the projects
+# to be bulit
+# EX: input:
+# projects: ['a','b','c','d','e','f']
+# dependencies:[('a','d'), ('f','b'), ('b','d'), ('f','a'), ('d','c')]
+# OUTPUT: ['e', 'f', 'a', 'b', 'd', 'c']
 
 
+def build_order (projs,deps):
+    counts = {}
+    for proj in projs:
+        counts[proj] = [0]
+    order = []
+    for tup in deps:
+        counts[tup[1]][0]+=1
+        counts[tup[0]].append(tup[1])
 
+    while counts:
+        for p in list(counts.keys()):
+            if counts[p][0] == 0:
+                order.append(p)
+                for neighbor in counts[p][1:]:
+                    counts[neighbor][0]-=1
+                del(counts[p])
+    return order
 
 
 
